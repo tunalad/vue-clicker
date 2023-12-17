@@ -1,14 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { inject } from "vue";
 
-const gameState = ref({
-    clicks: 0,
-    autoClick: 0,
-});
+const store = inject("store");
 
 function cookieClicked(e) {
     // score
-    gameState.value.clicks += 1;
+    store.state.clicks += 1;
 
     // style
     e.target.classList.add("no-hover");
@@ -27,13 +24,14 @@ function cookieClicked(e) {
             alt="Vue logo"
             @click="cookieClicked"
         />
-        <p>{{ gameState.clicks }} projects</p>
-        <p>{{ gameState.autoClick }} per second</p>
+        <p>{{ store.state.clicks }} projects</p>
+        <p>{{ store.state.autoClick }} per second</p>
     </div>
 </template>
 
 <style scoped>
 .logo {
+    cursor: pointer;
     height: 12em;
     padding: 1.5em;
     will-change: filter;
@@ -43,7 +41,6 @@ function cookieClicked(e) {
 }
 .logo:not(.no-hover):hover {
     filter: drop-shadow(0 0 2em #646cffaa);
-    cursor: pointer;
     transform: scale(1.2);
 }
 
