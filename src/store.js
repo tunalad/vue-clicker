@@ -6,7 +6,16 @@ function calcSpeed() {
     }, 0);
 }
 
-function startAutoclicker() {}
+let intervalId = null;
+
+function startAutoclicker(speed) {
+    if (state.autoClick <= 0) return;
+
+    clearInterval(intervalId);
+    intervalId = setInterval(() => {
+        state.clicks++;
+    }, speed);
+}
 
 const state = reactive({
     clicks: 150,
@@ -31,15 +40,21 @@ const state = reactive({
             cost: 100,
             count: 0,
         },
+        {
+            name: "gentoo user",
+            modifier: 0.5,
+            cost: 150,
+            count: 0,
+        },
     ],
 });
 
-watch(state, () => {
-    console.log("State modified:", state);
+watch(state.clickers, () => {
     state.autoClick = calcSpeed();
+    startAutoclicker(1000 / state.autoClick);
 });
 
-startAutoclicker();
+startAutoclicker(1000 / state.autoClick);
 
 export default {
     state: state,
