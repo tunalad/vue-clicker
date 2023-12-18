@@ -23,6 +23,7 @@ function cookieClicked(e) {
             class="logo vue"
             alt="Vue logo"
             @click="cookieClicked"
+            @dragstart.prevent
         />
         <p>{{ store.state.clicks }} projects</p>
         <p>{{ store.state.autoClick }} per second</p>
