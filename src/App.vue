@@ -4,10 +4,15 @@ import { inject } from "vue";
 import Cookie from "./components/Cookie.vue";
 import Clicker from "./components/Clicker.vue";
 
-const clickers = inject("store").state.clickers;
+const store = inject("store");
+const clickers = store.state.clickers;
 </script>
 
 <template>
+    <button @click="store.state.saveState()">Save State</button>
+    <button @click="store.state.loadState()">Load State</button>
+    <button @click="store.state.resetState()">Reset State</button>
+
     <Cookie />
 
     <div>

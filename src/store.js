@@ -1,4 +1,6 @@
 import { reactive, watch } from "vue";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-default.css";
 
 function calcSpeed() {
     return state.clickers.reduce((totalAutoClick, clicker) => {
@@ -17,9 +19,16 @@ function startAutoclicker(speed) {
     }, speed);
 }
 
+function autoSave(interval) {
+    setInterval(() => {
+        store.saveState();
+    }, interval);
+}
+
 const state = reactive({
     clicks: 150,
     autoClick: 0,
+    autosave: 0,
 
     clickers: [
         {
@@ -47,6 +56,27 @@ const state = reactive({
             count: 0,
         },
     ],
+
+    saveState() {
+        useToast().success("State Saved!");
+        localStorage.setItem("game-state", JSON.stringify(state));
+    },
+    loadState() {
+        const savedState = JSON.parse(localStorage.getItem("game-state"));
+
+        if (!savedState) return;
+
+        state.clicks = savedState.clicks;
+        state.autoClick = savedState.autoClick;
+        state.autosave = savedState.autosave;
+
+        state.clickers.forEach((clicker, i) => {
+            clicker.count = savedState.clickers[i].count;
+        });
+    },
+    resetState() {
+        localStorage.removeItem("game-state");
+    },
 });
 
 watch(state.clickers, () => {
@@ -55,6 +85,7 @@ watch(state.clickers, () => {
 });
 
 startAutoclicker(1000 / state.autoClick);
+autoSave(300 * 1000);
 
 export default {
     state: state,
