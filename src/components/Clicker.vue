@@ -15,20 +15,29 @@ function buyClicker() {
     );
 
     if (clickerIndex !== -1 && store.state.clicks >= props.cost) {
-        console.log("buying clicker", props.name);
+        const clicker = store.state.clickers[clickerIndex];
+        const price = calcPrice(clicker);
 
-        store.state.clickers[clickerIndex].count += 1;
-        store.state.clicks -= props.cost;
-
-        console.log(store.state.clickers);
+        if (store.state.clicks >= price) {
+            store.state.clicks -= price;
+            store.state.clickers[clickerIndex].count += 1;
+        }
     }
+}
+
+function calcPrice(clicker) {
+    // price = base price * 1.15
+    return clicker.count === 0
+        ? clicker.cost
+        : Math.ceil(clicker.cost * Math.pow(1.15, clicker.count));
 }
 </script>
 
 <template>
     <li>
         <button @click="buyClicker">{{ props.name }}</button>
-        {{ props.cost }} |
+        {{ calcPrice(store.state.clickers.find((c) => c.name === props.name)) }}
+        |
         {{
             store.state.clickers.find((clicker) => clicker.name === props.name)
                 ?.count
