@@ -16,6 +16,7 @@ function startAutoclicker(speed) {
     clearInterval(intervalId);
     intervalId = setInterval(() => {
         state.clicks++;
+        state.totalClicks++;
     }, speed);
 }
 
@@ -26,7 +27,8 @@ function autoSave(interval) {
 }
 
 const state = reactive({
-    clicks: 150,
+    clicks: 0,
+    totalClicks: 0,
     autoClick: 0,
     autosave: 0,
 

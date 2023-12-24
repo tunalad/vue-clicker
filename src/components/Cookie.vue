@@ -6,6 +6,7 @@ const store = inject("store");
 function cookieClicked(e) {
     // score
     store.state.clicks += 1;
+    store.state.totalClicks += 1;
 
     // style
     e.target.classList.add("no-hover");

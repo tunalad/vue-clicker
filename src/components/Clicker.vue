@@ -22,6 +22,8 @@ function buyClicker() {
             store.state.clicks -= price;
             store.state.clickers[clickerIndex].count += 1;
         }
+
+        store.state.saveState();
     }
 }
 
@@ -34,7 +36,12 @@ function calcPrice(clicker) {
 </script>
 
 <template>
-    <li>
+    <li v-if="store.state.totalClicks < props.cost" class="locked">
+        <button @click="buyClicker" disabled>{{ props.name }}</button>
+        {{ props.cost }}
+        | 0
+    </li>
+    <li v-else>
         <button @click="buyClicker">{{ props.name }}</button>
         {{ calcPrice(store.state.clickers.find((c) => c.name === props.name)) }}
         |
@@ -44,3 +51,18 @@ function calcPrice(clicker) {
         }}
     </li>
 </template>
+
+<style>
+.locked {
+    color: gray;
+    text-decoration: line-through;
+}
+
+.locked button {
+    text-decoration: line-through;
+    border: none;
+}
+.locked button:hover {
+    border: none;
+}
+</style>
