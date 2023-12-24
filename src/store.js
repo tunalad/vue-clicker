@@ -15,8 +15,12 @@ function startAutoclicker(speed) {
 
     clearInterval(intervalId);
     intervalId = setInterval(() => {
-        state.clicks++;
-        state.totalClicks++;
+        const cps = 1000 / speed; // clicks per second
+        const magnitude = Math.floor(Math.log10(cps));
+        const increment = magnitude >= 1 ? Math.ceil(2 ** magnitude) : 1;
+
+        state.clicks += increment;
+        state.totalClicks += increment;
     }, speed);
 }
 
