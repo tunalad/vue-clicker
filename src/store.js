@@ -21,7 +21,7 @@ function startAutoclicker(speed) {
 
 function autoSave(interval) {
     setInterval(() => {
-        store.saveState();
+        state.saveState();
     }, interval);
 }
 
