@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, inject } from "vue";
+import { defineProps, inject } from "vue";
 
 const store = inject("store");
 
@@ -21,9 +21,9 @@ function buyClicker() {
         if (store.state.clicks >= price) {
             store.state.clicks -= price;
             store.state.clickers[clickerIndex].count += 1;
-        }
 
-        store.state.saveState();
+            store.state.saveState();
+        }
     }
 }
 
@@ -37,7 +37,9 @@ function calcPrice(clicker) {
 
 <template>
     <li v-if="store.state.totalClicks < props.cost" class="locked">
-        <button @click="buyClicker" disabled>{{ props.name }}</button>
+        <button @click="buyClicker" disabled>
+            {{ props.name }}
+        </button>
         {{ props.cost }}
         | 0
     </li>

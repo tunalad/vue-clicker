@@ -73,6 +73,7 @@ const state = reactive({
         if (!savedState) return;
 
         state.clicks = savedState.clicks;
+        state.totalClicks = savedState.totalClicks;
         state.autoClick = savedState.autoClick;
         state.autosave = savedState.autosave;
 

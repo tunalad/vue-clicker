@@ -1,11 +1,15 @@
 <script setup>
-import { inject } from "vue";
+import { inject, onMounted } from "vue";
 
 import Cookie from "./components/Cookie.vue";
 import Clicker from "./components/Clicker.vue";
 
 const store = inject("store");
 const clickers = store.state.clickers;
+
+onMounted(() => {
+    store.state.loadState();
+});
 </script>
 
 <template>
