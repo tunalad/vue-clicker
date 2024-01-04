@@ -8,6 +8,10 @@ function calcSpeed() {
     }, 0);
 }
 
+function calcMod(cps) {
+    return 1 / cps;
+}
+
 let intervalId = null;
 
 function startAutoclicker(speed) {
@@ -38,29 +42,63 @@ const state = reactive({
 
     clickers: [
         {
-            name: "cursor",
-            modifier: 10,
+            name: "Cursor",
+            modifier: calcMod(0.1),
             cost: 15,
             count: 0,
         },
         {
-            name: "windows user",
-            modifier: 5,
-            cost: 30,
-            count: 0,
-        },
-        {
-            name: "arch user",
-            modifier: 1,
+            name: "Windows user",
+            modifier: calcMod(1),
             cost: 100,
             count: 0,
         },
         {
-            name: "gentoo user",
-            modifier: 0.5,
-            cost: 150,
+            name: "Mac user",
+            modifier: calcMod(8),
+            cost: 1100,
             count: 0,
         },
+        {
+            name: "Ubuntu user",
+            modifier: calcMod(47),
+            cost: 12000,
+            count: 0,
+        },
+        {
+            name: "Arch user",
+            modifier: calcMod(260),
+            cost: 130000,
+            count: 0,
+        },
+        {
+            name: "Gentoo user",
+            modifier: calcMod(1400),
+            cost: 1400000,
+            count: 0,
+        },
+        {
+            name: "LFS user",
+            modifier: calcMod(7800),
+            cost: 1400000,
+            count: 0,
+        },
+        {
+            name: "BSD user",
+            modifier: calcMod(44000),
+            cost: 20000000,
+            count: 0,
+        },
+        {
+            name: "TempleOS user",
+            modifier: calcMod(260000),
+            cost: 330000000,
+            count: 0,
+        },
+        // more will be added in the future.
+        // I don't know what the other will be
+        // but I WILL make sure that the MX Linux is the last
+        // (and the one giving the most)
     ],
 
     saveState() {
@@ -83,6 +121,7 @@ const state = reactive({
     },
     resetState() {
         localStorage.removeItem("game-state");
+        location.reload();
     },
 });
 
