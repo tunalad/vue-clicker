@@ -13,9 +13,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <button @click="store.state.saveState()">Save State</button>
-    <button @click="store.state.loadState()">Load State</button>
-    <button @click="store.state.resetState()">Reset State</button>
+    <nav>
+        <button @click="store.state.saveState()">Save State</button>
+        <button @click="store.state.loadState()">Load State</button>
+        <button @click="store.state.resetState()">Reset State</button>
+    </nav>
 
     <Cookie />
 
@@ -28,6 +30,7 @@ onMounted(() => {
                 :name="clicker.name"
                 :modifier="clicker.modifier"
                 :cost="clicker.cost"
+                :icon="clicker.icon"
             />
         </ul>
     </div>

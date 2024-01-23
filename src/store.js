@@ -46,59 +46,69 @@ const state = reactive({
             modifier: calcMod(0.1),
             cost: 15,
             count: 0,
+            icon: "cursor.svg",
         },
         {
             name: "Windows user",
             modifier: calcMod(1),
             cost: 100,
             count: 0,
+            icon: "win-logo.svg",
         },
         {
             name: "Mac user",
             modifier: calcMod(8),
             cost: 1100,
             count: 0,
+            icon: "apple.svg",
         },
         {
             name: "Ubuntu user",
             modifier: calcMod(47),
             cost: 12000,
             count: 0,
+            icon: "ubuntu.svg",
         },
         {
             name: "Arch user",
             modifier: calcMod(260),
             cost: 130000,
             count: 0,
+            icon: "arch.svg",
         },
         {
             name: "Gentoo user",
             modifier: calcMod(1400),
             cost: 1400000,
             count: 0,
+            icon: "gentoo.svg",
         },
         {
             name: "LFS user",
             modifier: calcMod(7800),
-            cost: 1400000,
-            count: 0,
-        },
-        {
-            name: "BSD user",
-            modifier: calcMod(44000),
             cost: 20000000,
             count: 0,
+            icon: "lfs.png",
+        },
+        {
+            name: "FreeBSD user",
+            modifier: calcMod(44000),
+            cost: 330000000,
+            count: 0,
+            icon: "freebsd.svg",
         },
         {
             name: "TempleOS user",
             modifier: calcMod(260000),
-            cost: 330000000,
+            cost: 5100000000,
             count: 0,
+            icon: "templeos.svg",
         },
         // more will be added in the future.
         // I don't know what the other will be
         // but I WILL make sure that the MX Linux is the last
         // (and the one giving the most)
+        // https://cookieclicker.fandom.com/wiki/Building
     ],
 
     saveState() {

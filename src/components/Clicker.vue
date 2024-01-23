@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, inject } from "vue";
+import { defineProps, inject, ref } from "vue";
 
 const store = inject("store");
 
@@ -7,6 +7,7 @@ const props = defineProps({
     name: String,
     modifier: Number,
     cost: Number,
+    icon: String,
 });
 
 function buyClicker() {
@@ -33,28 +34,60 @@ function calcPrice(clicker) {
         ? clicker.cost
         : Math.ceil(clicker.cost * Math.pow(1.15, clicker.count));
 }
+
+function getImageUrl() {
+    if (props.icon)
+        return new URL(`../assets/${props.icon}`, import.meta.url).href;
+    return new URL("../assets/vue.svg", import.meta.url).href;
+}
 </script>
 
 <template>
     <li v-if="store.state.totalClicks < props.cost" class="locked">
-        <button @click="buyClicker" disabled>
-            {{ props.name }}
+        <button @click="buyClicker" disabled class="list-item">
+            <div class="icon">
+                <!--<img src="../assets/cursor.svg" />-->
+                <img :src="getImageUrl()" />
+            </div>
+            <div class="name-price">
+                <p>{{ props.name }}</p>
+                <p>{{ props.cost }}</p>
+            </div>
+            <div class="count">
+                <p>0</p>
+            </div>
         </button>
-        {{ props.cost }}
-        | 0
     </li>
     <li v-else>
-        <button @click="buyClicker">{{ props.name }}</button>
-        {{ calcPrice(store.state.clickers.find((c) => c.name === props.name)) }}
-        |
-        {{
-            store.state.clickers.find((clicker) => clicker.name === props.name)
-                ?.count
-        }}
+        <button @click="buyClicker" class="list-item">
+            <div class="icon">
+                <!--<img src="../assets/vue.svg" />-->
+                <img :src="getImageUrl()" />
+            </div>
+            <div class="name-price">
+                <p>{{ props.name }}</p>
+                <p>
+                    {{
+                        calcPrice(
+                            store.state.clickers.find(
+                                (c) => c.name === props.name,
+                            ),
+                        )
+                    }}
+                </p>
+            </div>
+            <div class="count">
+                {{
+                    store.state.clickers.find(
+                        (clicker) => clicker.name === props.name,
+                    )?.count
+                }}
+            </div>
+        </button>
     </li>
 </template>
 
-<style>
+<style scoped>
 .locked {
     color: gray;
     text-decoration: line-through;
@@ -66,5 +99,32 @@ function calcPrice(clicker) {
 }
 .locked button:hover {
     border: none;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 0 20px;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    padding: 3px 0;
+}
+
+img {
+    width: 40px;
+    height: 40px;
 }
 </style>
