@@ -26,8 +26,18 @@ function cookieClicked(e) {
             @click="cookieClicked"
             @dragstart.prevent
         />
-        <p>{{ store.state.clicks }} projects</p>
-        <p>{{ store.state.autoClick }} per second</p>
+        <p>
+            {{ store.state.clicks.toFixed(0) }}
+            projects
+        </p>
+        <p>
+            {{
+                store.state.autoClick % 1 !== 0
+                    ? store.state.autoClick.toFixed(1)
+                    : store.state.autoClick
+            }}
+            per second
+        </p>
     </div>
 </template>
 

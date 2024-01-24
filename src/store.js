@@ -12,17 +12,26 @@ function calcMod(cps) {
     return 1 / cps;
 }
 
+function calcClicks(cps, ms) {
+    return cps * (ms / 1000);
+}
+
 let intervalId = null;
 
-function startAutoclicker(speed) {
+function startAutoclicker(cps) {
     if (state.autoClick <= 0) return;
+
+    let speed = 0;
+    let increment = 1;
+
+    if (cps < 100) speed = 1000 / cps;
+    else {
+        increment = calcClicks(cps, 10);
+        speed = 10;
+    }
 
     clearInterval(intervalId);
     intervalId = setInterval(() => {
-        const cps = 1000 / speed; // clicks per second
-        const magnitude = Math.floor(Math.log10(cps));
-        const increment = magnitude >= 1 ? Math.ceil(2 ** magnitude) : 1;
-
         state.clicks += increment;
         state.totalClicks += increment;
     }, speed);
@@ -137,10 +146,10 @@ const state = reactive({
 
 watch(state.clickers, () => {
     state.autoClick = calcSpeed();
-    startAutoclicker(1000 / state.autoClick);
+    startAutoclicker(state.autoClick);
 });
 
-startAutoclicker(1000 / state.autoClick);
+startAutoclicker(state.autoClick);
 autoSave(300 * 1000);
 
 export default {
