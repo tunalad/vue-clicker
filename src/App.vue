@@ -35,3 +35,9 @@ onMounted(() => {
         </ul>
     </div>
 </template>
+
+<style scoped>
+ul {
+    padding: 0;
+}
+</style>

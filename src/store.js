@@ -69,7 +69,7 @@ const state = reactive({
             modifier: calcMod(8),
             cost: 1100,
             count: 0,
-            icon: "apple.svg",
+            icon: "mac.svg",
         },
         {
             name: "Ubuntu user",

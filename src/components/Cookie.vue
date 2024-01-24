@@ -1,5 +1,6 @@
 <script setup>
 import { inject } from "vue";
+import aveta from "aveta";
 
 const store = inject("store");
 
@@ -27,7 +28,12 @@ function cookieClicked(e) {
             @dragstart.prevent
         />
         <p>
-            {{ store.state.clicks.toFixed(0) }}
+            {{
+                aveta(parseInt(store.state.clicks.toFixed(0)), {
+                    digits: 4,
+                    lowercase: true,
+                })
+            }}
             projects
         </p>
         <p>
@@ -36,7 +42,7 @@ function cookieClicked(e) {
                     ? store.state.autoClick.toFixed(1)
                     : store.state.autoClick
             }}
-            per second
+            projects per second
         </p>
     </div>
 </template>

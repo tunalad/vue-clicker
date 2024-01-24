@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, inject, ref } from "vue";
+import aveta from "aveta";
 
 const store = inject("store");
 
@@ -46,12 +47,15 @@ function getImageUrl() {
     <li v-if="store.state.totalClicks < props.cost" class="locked">
         <button @click="buyClicker" disabled class="list-item">
             <div class="icon">
-                <!--<img src="../assets/cursor.svg" />-->
                 <img :src="getImageUrl()" />
             </div>
             <div class="name-price">
-                <p>{{ props.name }}</p>
-                <p>{{ props.cost }}</p>
+                <p>???</p>
+                <small
+                    ><img src="../assets/vue.svg" />{{
+                        aveta(props.cost, { digits: 4, lowercase: true })
+                    }}</small
+                >
             </div>
             <div class="count">
                 <p>0</p>
@@ -61,20 +65,23 @@ function getImageUrl() {
     <li v-else>
         <button @click="buyClicker" class="list-item">
             <div class="icon">
-                <!--<img src="../assets/vue.svg" />-->
                 <img :src="getImageUrl()" />
             </div>
             <div class="name-price">
                 <p>{{ props.name }}</p>
-                <p>
+                <small>
+                    <img src="../assets/vue.svg" />
                     {{
-                        calcPrice(
-                            store.state.clickers.find(
-                                (c) => c.name === props.name,
+                        aveta(
+                            calcPrice(
+                                store.state.clickers.find(
+                                    (c) => c.name === props.name,
+                                ),
                             ),
+                            { digits: 4, lowercase: true },
                         )
                     }}
-                </p>
+                </small>
             </div>
             <div class="count">
                 {{
@@ -90,15 +97,19 @@ function getImageUrl() {
 <style scoped>
 .locked {
     color: gray;
-    text-decoration: line-through;
+    /*text-decoration: line-through;*/
 }
 
 .locked button {
-    text-decoration: line-through;
+    /*text-decoration: line-through;*/
     border: none;
 }
 .locked button:hover {
     border: none;
+}
+
+.locked .icon img {
+    filter: brightness(0%) blur(5px);
 }
 
 .list-item {
@@ -110,12 +121,13 @@ function getImageUrl() {
     box-sizing: border-box;
 }
 
-p {
-    margin: 0;
+.name-price img {
+    height: 10px;
+    width: 20px;
 }
 
-ul {
-    padding: 0;
+p {
+    margin: 0;
 }
 
 li {
