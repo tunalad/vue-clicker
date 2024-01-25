@@ -1,8 +1,9 @@
-import { reactive, watch } from "vue";
+import { reactive, watch, watchEffect } from "vue";
 import { clickers } from "./clickers.js";
 
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-default.css";
+import aveta from "aveta";
 
 function calcSpeed() {
     // gives us the cps value
@@ -24,16 +25,23 @@ function startAutoclicker(cps) {
     let speed = 0;
     let increment = 1;
 
-    if (cps < 100) speed = 1000 / cps;
-    else {
-        increment = calcClicks(cps, 10);
-        speed = 10;
+    if (state.tabbedIn) {
+        if (cps < 100) speed = 1000 / cps;
+        else {
+            increment = calcClicks(cps, 10);
+            speed = 10;
+        }
+    } else {
+        increment = calcClicks(cps, 10000);
+        speed = 10000;
     }
 
     clearInterval(intervalId);
     intervalId = setInterval(() => {
         state.clicks += increment;
         state.totalClicks += increment;
+        document.title = `${aveta(state.clicks, { digits: 4, lowercase: true })} Vue Projects Made`;
+        if (!state.tabbedIn) state.saveState();
     }, speed);
 }
 
@@ -48,6 +56,7 @@ const state = reactive({
     totalClicks: 0,
     autoClick: 0,
     autosave: 0,
+    tabbedIn: true,
 
     clickers: clickers,
 
@@ -79,6 +88,14 @@ watch(state.clickers, () => {
     state.autoClick = calcSpeed();
     startAutoclicker(state.autoClick);
 });
+
+watch(
+    () => state.tabbedIn,
+    () => {
+        console.log("gass");
+        startAutoclicker(state.autoClick);
+    },
+);
 
 startAutoclicker(state.autoClick);
 autoSave(300 * 1000);
