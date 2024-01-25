@@ -1,4 +1,4 @@
-import { reactive, watch, watchEffect } from "vue";
+import { reactive, watch } from "vue";
 import { clickers } from "./clickers.js";
 
 import { useToast } from "vue-toast-notification";
