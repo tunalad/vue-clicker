@@ -18,6 +18,7 @@ function calcClicks(cps, ms) {
 }
 
 let intervalId = null;
+let lastUpdateTime = Date.now();
 
 function startAutoclicker(cps) {
     if (state.autoClick <= 0) return;
@@ -32,15 +33,23 @@ function startAutoclicker(cps) {
             speed = 10;
         }
     } else {
-        increment = calcClicks(cps, 10000);
-        speed = 10000;
+        console.log("Slow state started due to window not being focused.");
+        increment = calcClicks(cps, 5000);
+        speed = 5000;
     }
 
     clearInterval(intervalId);
     intervalId = setInterval(() => {
-        state.clicks += increment;
-        state.totalClicks += increment;
-        document.title = `${aveta(state.clicks, { digits: 4, lowercase: true })} Vue Projects Made`;
+        //state.clicks += increment;
+        //state.totalClicks += increment;
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - lastUpdateTime;
+        lastUpdateTime = currentTime;
+
+        const operationsPerformed = Math.floor(elapsedTime / speed);
+        state.clicks += operationsPerformed * increment;
+        state.totalClicks += operationsPerformed * increment;
+        document.title = `${aveta(state.clicks, { digits: 2, lowercase: true })} Vue Projects Made`;
         if (!state.tabbedIn) state.saveState();
     }, speed);
 }
@@ -92,7 +101,6 @@ watch(state.clickers, () => {
 watch(
     () => state.tabbedIn,
     () => {
-        console.log("gass");
         startAutoclicker(state.autoClick);
     },
 );

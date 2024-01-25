@@ -8,19 +8,14 @@ const store = inject("store");
 const clickers = store.state.clickers;
 
 const handleFocus = () => {
-    document.title = "Tabbed In";
     store.state.tabbedIn = true;
-    console.log(store.state.tabbedIn);
 };
 
 const handleBlur = () => {
-    document.title = "Tabbed Out";
     store.state.tabbedIn = false;
-    console.log(store.state.tabbedIn);
 };
 
 onMounted(() => {
-    document.title = "0 Vue Projects Made";
     store.state.loadState();
 
     window.addEventListener("focus", handleFocus);
